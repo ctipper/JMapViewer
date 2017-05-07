@@ -41,7 +41,7 @@ public class OsmTileSource {
     public static class CycleMap extends AbstractOsmTileSource {
 
         private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
-        private static final String PATTERN = "http://%s.tile.thunderforest.com/cycle";
+        private static final String PATTERN = "https://%s.tile.thunderforest.com/cycle";
         private static final String[] SERVER = { "a", "b", "c" };
 
         private int serverNum;
@@ -87,7 +87,7 @@ public class OsmTileSource {
     public static class TransportMap extends AbstractOsmTileSource {
 
         private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
-        private static final String PATTERN = "http://%s.tile.thunderforest.com/transport";
+        private static final String PATTERN = "https://%s.tile.thunderforest.com/transport";
         private static final String[] SERVER = { "a", "b", "c" };
 
         private int serverNum;
@@ -133,7 +133,7 @@ public class OsmTileSource {
     public static class LandscapeMap extends AbstractOsmTileSource {
 
         private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
-        private static final String PATTERN = "http://%s.tile.thunderforest.com/landscape";
+        private static final String PATTERN = "https://%s.tile.thunderforest.com/landscape";
         private static final String[] SERVER = { "a", "b", "c" };
 
         private int serverNum;
@@ -179,7 +179,7 @@ public class OsmTileSource {
     public static class OutdoorsMap extends AbstractOsmTileSource {
 
         private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
-        private static final String PATTERN = "http://%s.tile.thunderforest.com/outdoors";
+        private static final String PATTERN = "https://%s.tile.thunderforest.com/outdoors";
         private static final String[] SERVER = { "a", "b", "c" };
 
         private int serverNum;

@@ -89,6 +89,9 @@ public class Demo extends JFrame implements JMapViewerEventListener {
         JComboBox<TileSource> tileSourceSelector = new JComboBox<>(new TileSource[] {
                 new OsmTileSource.Mapnik(),
                 new OsmTileSource.CycleMap(),
+                new OsmTileSource.TransportMap(),
+                new OsmTileSource.LandscapeMap(),
+                new OsmTileSource.OutdoorsMap(),
                 new BingTileSource(),
                 new BingAerialTileSource()
         });

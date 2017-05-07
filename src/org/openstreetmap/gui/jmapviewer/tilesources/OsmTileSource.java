@@ -1,6 +1,9 @@
 // License: GPL. For details, see Readme.txt file.
 package org.openstreetmap.gui.jmapviewer.tilesources;
 
+import java.io.IOException;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
+
 /**
  * OSM Tile source.
  */
@@ -37,9 +40,11 @@ public class OsmTileSource {
      */
     public static class CycleMap extends AbstractOsmTileSource {
 
-        private static final String PATTERN = "http://%s.tile.opencyclemap.org/cycle";
+        private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
+        
+        private static final String PATTERN = "http://%s.tile.thunderforest.com/cycle";
 
-        private static final String[] SERVER = {"a", "b", "c"};
+        private static final String[] SERVER = { "a", "b", "c" };
 
         private int serverNum;
 
@@ -47,7 +52,7 @@ public class OsmTileSource {
          * Constructs a new {@code CycleMap} tile source.
          */
         public CycleMap() {
-            super("Cyclemap", PATTERN, "opencyclemap");
+            super("OSM Cycle Map", PATTERN, "opencyclemap");
         }
 
         @Override
@@ -61,5 +66,21 @@ public class OsmTileSource {
         public int getMaxZoom() {
             return 18;
         }
+
+        @Override
+        public String getTileUrl(int zoom, int tilex, int tiley) throws IOException {
+            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley) + "?apikey=" + API_KEY;
+        }
+
+        @Override
+        public String getAttributionText(int zoom, ICoordinate topLeft, ICoordinate botRight) {
+            return "Maps © Thunderforest, Data © OpenStreetMap contributors";
+        }
+
+        @Override
+        public String getAttributionLinkURL() {
+            return "http://www.thunderforest.com/";
+        }
     }
+
 }

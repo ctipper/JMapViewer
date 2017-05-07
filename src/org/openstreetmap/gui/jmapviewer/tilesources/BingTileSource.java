@@ -1,4 +1,10 @@
-// License: GPL. For details, see Readme.txt file.
+/**
+ * BingTileSource.java
+ * 
+ * Created on 07-May-2017 13:06:53
+ * 
+ * License: GPL. For details, see Readme.txt file.
+ */
 package org.openstreetmap.gui.jmapviewer.tilesources;
 
 import java.awt.Image;
@@ -37,10 +43,15 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
+ *
+ * @author ctipper
+ */
+
+/**
  * Tile source for the Bing Maps REST Imagery API.
  * @see <a href="https://msdn.microsoft.com/en-us/library/ff701724.aspx">MSDN</a>
  */
-public class BingAerialTileSource extends TMSTileSource {
+public class BingTileSource extends TMSTileSource {
 
     private static final String API_KEY = "Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU";
     private static volatile Future<List<Attribution>> attributions; // volatile is required for getAttribution(), see below.
@@ -54,17 +65,17 @@ public class BingAerialTileSource extends TMSTileSource {
     private String brandLogoUri;
 
     /**
-     * Constructs a new {@code BingAerialTileSource}.
+     * Constructs a new {@code BingTileSource}.
      */
-    public BingAerialTileSource() {
-        super(new TileSourceInfo("Bing Aerial Maps", null, null));
+    public BingTileSource() {
+        super(new TileSourceInfo("Bing Maps", null, null));
     }
 
     /**
-     * Constructs a new {@code BingAerialTileSource}.
+     * Constructs a new {@code BingTileSource}.
      * @param info imagery info
      */
-    public BingAerialTileSource(TileSourceInfo info) {
+    public BingTileSource(TileSourceInfo info) {
         super(info);
     }
 
@@ -93,7 +104,7 @@ public class BingAerialTileSource extends TMSTileSource {
     }
 
     protected URL getAttributionUrl() throws MalformedURLException {
-        return new URL("https://dev.virtualearth.net/REST/v1/Imagery/Metadata/Aerial?include=ImageryProviders&output=xml&key="
+        return new URL("https://dev.virtualearth.net/REST/v1/Imagery/Metadata/Road?include=ImageryProviders&output=xml&key="
                 + API_KEY);
     }
 
@@ -192,7 +203,7 @@ public class BingAerialTileSource extends TMSTileSource {
     @Override
     public Image getAttributionImage() {
         try {
-            final InputStream imageResource = JMapViewer.class.getResourceAsStream("images/bing_maps_logo_white_small.png");
+            final InputStream imageResource = JMapViewer.class.getResourceAsStream("images/bing_maps_logo_gray_small.png");
             if (imageResource != null) {
                 return ImageIO.read(imageResource);
             } else {
@@ -254,7 +265,7 @@ public class BingAerialTileSource extends TMSTileSource {
     protected List<Attribution> getAttribution() {
         if (attributions == null) {
             // see http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
-            synchronized (BingAerialTileSource.class) {
+            synchronized (BingTileSource.class) {
                 if (attributions == null) {
                   final FutureTask<List<Attribution>> loader = new FutureTask<>(getAttributionLoaderCallable());
                   new Thread(loader, "bing-attribution-loader").start();

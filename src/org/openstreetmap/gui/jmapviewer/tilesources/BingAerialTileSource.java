@@ -14,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -263,9 +262,7 @@ public class BingAerialTileSource extends TMSTileSource {
             }
         }
         try {
-            return attributions.get(0, TimeUnit.MILLISECONDS);
-        } catch (TimeoutException ex) {
-            System.err.println("Bing: attribution data is not yet loaded.");
+            return attributions.get();
         } catch (ExecutionException ex) {
             throw new RuntimeException(ex.getCause());
         } catch (InterruptedException ign) {

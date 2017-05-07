@@ -50,9 +50,8 @@ public class TMSTileSource extends AbstractTMSTileSource {
     @Override
     public Point latLonToXY(double lat, double lon, int zoom) {
         return new Point(
-                (int) osmMercator.lonToX(lon, zoom),
-                (int) osmMercator.latToY(lat, zoom)
-                );
+            (int) osmMercator.lonToX(lon, zoom),
+            (int) Math.round(osmMercator.latToY(lat, zoom)));
     }
 
     @Override
@@ -67,7 +66,7 @@ public class TMSTileSource extends AbstractTMSTileSource {
     public TileXY latLonToTileXY(double lat, double lon, int zoom) {
         return new TileXY(
                 osmMercator.lonToX(lon, zoom) / getTileSize(),
-                osmMercator.latToY(lat, zoom) / getTileSize()
+                Math.round(osmMercator.latToY(lat, zoom)) / getTileSize()
                 );
     }
 

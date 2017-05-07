@@ -3,6 +3,10 @@ package org.openstreetmap.gui.jmapviewer;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsConfiguration;
+import java.awt.Transparency;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -27,14 +31,41 @@ public class Tile {
     /**
      * Hourglass image that is displayed until a map tile has been loaded, except for overlay sources
      */
-    public static final BufferedImage LOADING_IMAGE = loadImage("images/hourglass.png");
-
+    public static BufferedImage LOADING_IMAGE;
     /**
      * Red cross image that is displayed after a loading error, except for overlay sources
      */
-    public static final BufferedImage ERROR_IMAGE = loadImage("images/error.png");
+    public static BufferedImage ERROR_IMAGE;
 
-    protected TileSource source;
+    static {
+        try {
+            LOADING_IMAGE = readInImage(JMapViewer.class.getResourceAsStream("images/hourglass.png"));
+            ERROR_IMAGE = readInImage(JMapViewer.class.getResourceAsStream("images/error.png"));
+        } catch (IOException e) {
+            LOADING_IMAGE = null;
+            ERROR_IMAGE = null;
+        }
+    }
+
+    static BufferedImage readInImage(InputStream in) throws IOException {
+        if (OsmMercator.isRetina()) {
+            final GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            final GraphicsDevice device = env.getDefaultScreenDevice();
+            final GraphicsConfiguration gc = device.getDefaultConfiguration();
+            BufferedImage image2x = gc.createCompatibleImage(512, 512, Transparency.TRANSLUCENT);
+            BufferedImage image = ImageIO.read(in);
+            Graphics2D g = image2x.createGraphics();
+            AffineTransform op = new AffineTransform();
+            op.setToScale(2, 2);
+            g.drawImage(image, op, null);
+            g.dispose();
+            return image2x;
+        } else {
+            return ImageIO.read(in);
+        }
+    }
+
+protected TileSource source;
     protected int xtile;
     protected int ytile;
     protected int zoom;
@@ -80,7 +111,7 @@ public class Tile {
 
     private static BufferedImage loadImage(String path) {
         try {
-            return ImageIO.read(JMapViewer.class.getResourceAsStream(path));
+            return readInImage(JMapViewer.class.getResourceAsStream(path));
         } catch (IOException | IllegalArgumentException ex) {
             ex.printStackTrace();
             return null;
@@ -243,7 +274,7 @@ public class Tile {
     }
 
     public void loadImage(InputStream input) throws IOException {
-        setImage(ImageIO.read(input));
+        setImage(readInImage(input));
     }
 
     /**

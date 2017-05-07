@@ -34,6 +34,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.OsmMercator;
 import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -202,7 +203,12 @@ public class BingTileSource extends TMSTileSource {
     @Override
     public Image getAttributionImage() {
         try {
-            final InputStream imageResource = JMapViewer.class.getResourceAsStream("images/bing_maps_logo_gray_small.png");
+            InputStream imageResource;
+            if (OsmMercator.isRetina()) {
+                imageResource = JMapViewer.class.getResourceAsStream("/org/openstreetmap/gui/jmapviewer/images/bing_maps_logo_gray_medium_2.png");
+            } else {
+                imageResource = JMapViewer.class.getResourceAsStream("/org/openstreetmap/gui/jmapviewer/images/bing_maps_logo_gray_small.png");
+            }
             if (imageResource != null) {
                 return ImageIO.read(imageResource);
             } else {

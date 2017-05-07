@@ -28,6 +28,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.OsmMercator;
 import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -191,7 +192,12 @@ public class BingAerialTileSource extends TMSTileSource {
     @Override
     public Image getAttributionImage() {
         try {
-            final InputStream imageResource = JMapViewer.class.getResourceAsStream("images/bing_maps_logo_white_small.png");
+            InputStream imageResource;
+            if (OsmMercator.isRetina()) {
+                imageResource = JMapViewer.class.getResourceAsStream("/org/openstreetmap/gui/jmapviewer/images/bing_maps_logo_white_medium_2.png");
+            } else {
+                imageResource = JMapViewer.class.getResourceAsStream("/org/openstreetmap/gui/jmapviewer/images/bing_maps_logo_white_small.png");
+            }
             if (imageResource != null) {
                 return ImageIO.read(imageResource);
             } else {
@@ -199,16 +205,16 @@ public class BingAerialTileSource extends TMSTileSource {
                 for (int i = 0; i < 5 && getAttribution() == null; i++) {
                     // Makes sure attribution is loaded
                     if (JMapViewer.debug) {
-                        System.out.println("Bing attribution attempt " + (i+1));
+                        System.out.println("Bing attribution attempt " + (i + 1));
                     }
                 }
                 if (brandLogoUri != null && !brandLogoUri.isEmpty()) {
-                    System.out.println("Reading Bing logo from "+brandLogoUri);
+                    System.out.println("Reading Bing logo from " + brandLogoUri);
                     return ImageIO.read(new URL(brandLogoUri));
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error while retrieving Bing logo: "+e.getMessage());
+            System.err.println("Error while retrieving Bing logo: " + e.getMessage());
         }
         return null;
     }

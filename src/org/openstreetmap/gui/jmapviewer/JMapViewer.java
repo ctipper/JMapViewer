@@ -1,6 +1,7 @@
 // License: GPL. For details, see Readme.txt file.
 package org.openstreetmap.gui.jmapviewer;
 
+import java.awt.Graphics2D;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -9,6 +10,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -208,6 +210,22 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
         });
         zoomOutButton.setFocusable(false);
         add(zoomOutButton);
+    }
+
+    public int getWidth() {
+        if (OsmMercator.isRetina()) {
+            return super.getWidth() * 2;
+        } else {
+            return super.getWidth();
+        }
+    }
+    
+    public int getHeight() {
+        if (OsmMercator.isRetina()) {
+            return super.getHeight() * 2;
+        } else {
+            return super.getHeight();
+        }
     }
 
     /**
@@ -558,7 +576,15 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        super.paintComponent((Graphics2D) g);
+        Graphics2D g2 = (Graphics2D) g;
+        
+        AffineTransform defaultTransform = g2.getTransform();
+        AffineTransform retina = new AffineTransform();
+        if (OsmMercator.isRetina()) {
+            retina.setToScale(0.5, 0.5);
+        }
+        g2.transform(retina);
 
         int iMove = 0;
 
@@ -623,9 +649,9 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
                             tile = tileController.getTile(tilex, tiley, zoom);
                         }
                         if (tile != null) {
-                            tile.paint(g, posx, posy, tilesize, tilesize);
+                            tile.paint(g2, posx, posy, tilesize, tilesize);
                             if (tileGridVisible) {
-                                g.drawRect(posx, posy, tilesize, tilesize);
+                                g2.drawRect(posx, posy, tilesize, tilesize);
                             }
                         }
                         painted = true;
@@ -642,13 +668,13 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
         // outer border of the map
         int mapSize = tilesize << zoom;
         if (scrollWrapEnabled) {
-            g.drawLine(0, h2 - center.y, getWidth(), h2 - center.y);
-            g.drawLine(0, h2 - center.y + mapSize, getWidth(), h2 - center.y + mapSize);
+            g2.drawLine(0, h2 - center.y, getWidth(), h2 - center.y);
+            g2.drawLine(0, h2 - center.y + mapSize, getWidth(), h2 - center.y + mapSize);
         } else {
-            g.drawRect(w2 - center.x, h2 - center.y, mapSize, mapSize);
+            g2.drawRect(w2 - center.x, h2 - center.y, mapSize, mapSize);
         }
 
-        // g.drawString("Tiles in cache: " + tileCache.getTileCount(), 50, 20);
+        // g2.drawString("Tiles in cache: " + tileCache.getTileCount(), 50, 20);
 
         // keep x-coordinates from growing without bound if scroll-wrap is enabled
         if (scrollWrapEnabled) {
@@ -659,7 +685,7 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
             synchronized (this) {
                 for (MapPolygon polygon : mapPolygonList) {
                     if (polygon.isVisible())
-                        paintPolygon(g, polygon);
+                        paintPolygon(g2, polygon);
                 }
             }
         }
@@ -668,7 +694,7 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
             synchronized (this) {
                 for (MapRectangle rectangle : mapRectangleList) {
                     if (rectangle.isVisible())
-                        paintRectangle(g, rectangle);
+                        paintRectangle(g2, rectangle);
                 }
             }
         }
@@ -677,12 +703,14 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
             synchronized (this) {
                 for (MapMarker marker : mapMarkerList) {
                     if (marker.isVisible())
-                        paintMarker(g, marker);
+                        paintMarker(g2, marker);
                 }
             }
         }
 
-        attribution.paintAttribution(g, getWidth(), getHeight(), getPosition(0, 0), getPosition(getWidth(), getHeight()), zoom, this);
+        attribution.paintAttribution(g2, getWidth(), getHeight(), getPosition(0, 0), getPosition(getWidth(), getHeight()), zoom, this);
+        // reset graphics context
+        g2.setTransform(defaultTransform);
     }
 
     /**
@@ -869,6 +897,10 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
         if (zoom > tileController.getTileSource().getMaxZoom() || zoom < tileController.getTileSource().getMinZoom()
                 || zoom == this.zoom)
             return;
+        if (OsmMercator.isRetina()) {
+            // retina 2x scale
+            mapPoint.setLocation(2 * mapPoint.x, 2 * mapPoint.y);
+        }
         ICoordinate zoomPos = getPosition(mapPoint);
         tileController.cancelOutstandingJobs(); // Clearing outstanding load
         // requests
@@ -883,7 +915,13 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
      * @param zoom new zoom level
      */
     public void setZoom(int zoom) {
-        setZoom(zoom, new Point(getWidth() / 2, getHeight() / 2));
+        Point mapPoint = new Point(getWidth() / 2, getHeight() / 2);
+        if (OsmMercator.isRetina()) {
+            // retina 2x scale
+            mapPoint.setLocation(Math.toIntExact(Math.round(mapPoint.x / 2)), 
+                Math.toIntExact(Math.round(mapPoint.y / 2)));
+        }
+        setZoom(zoom, mapPoint);
     }
 
     /**

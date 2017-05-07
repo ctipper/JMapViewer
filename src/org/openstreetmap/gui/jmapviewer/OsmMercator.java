@@ -1,6 +1,10 @@
 // License: GPL. For details, see Readme.txt file.
 package org.openstreetmap.gui.jmapviewer;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.lang.reflect.Field;
+
 /**
  * This class implements the Mercator Projection as it is used by OpenStreetMap
  * (and google). It provides methods to translate coordinates from 'map space'
@@ -15,7 +19,7 @@ public class OsmMercator {
     /**
      * default tile size
      */
-    public static final int DEFAUL_TILE_SIZE = 256;
+    public static final int DEFAUL_TILE_SIZE = (isRetina() ? 512 : 256);
     /** maximum latitude (north) for mercator display */
     public static final double MAX_LAT = 85.05112877980659;
     /** minimum latitude (south) for mercator display */
@@ -66,6 +70,27 @@ public class OsmMercator {
 
     public int falseNorthing(int aZoomlevel) {
         return -1 * getMaxPixels(aZoomlevel) / 2;
+    }
+
+    public static boolean isRetina() {
+        boolean isRetina = false;
+        final GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        final GraphicsDevice device = env.getDefaultScreenDevice();
+        try {
+            Field field = device.getClass().getDeclaredField("scale");
+
+            if (field != null) {
+                field.setAccessible(true);
+                Object scale = field.get(device);
+
+                if (scale instanceof Integer && ((Integer) scale) == 2) {
+                    isRetina = true;
+                }
+            }
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException
+                     | SecurityException e) {
+        }
+        return isRetina;
     }
 
     /**

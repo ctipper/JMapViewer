@@ -576,7 +576,7 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent((Graphics2D) g);
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         
         AffineTransform defaultTransform = g2.getTransform();
@@ -918,8 +918,7 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
         Point mapPoint = new Point(getWidth() / 2, getHeight() / 2);
         if (OsmMercator.isRetina()) {
             // retina 2x scale
-            mapPoint.setLocation(Math.toIntExact(Math.round(mapPoint.x / 2)), 
-                Math.toIntExact(Math.round(mapPoint.y / 2)));
+            mapPoint.setLocation(((int) (mapPoint.x / 2)), (int) (mapPoint.y / 2));
         }
         setZoom(zoom, mapPoint);
     }

@@ -1,7 +1,13 @@
 // License: GPL. For details, see Readme.txt file.
 package org.openstreetmap.gui.jmapviewer;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Point;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Color;
 
 import static org.openstreetmap.gui.jmapviewer.FeatureAdapter.tr;
 

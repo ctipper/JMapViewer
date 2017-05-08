@@ -11,3 +11,4 @@ JMapViewer.jar
 JMapViewer_Demo.jar
 JMapViewer_src.jar
 tools
+findbugs-jmapviewer.xml

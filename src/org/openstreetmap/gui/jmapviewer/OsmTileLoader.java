@@ -22,7 +22,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.TileLoaderListener;
  */
 public class OsmTileLoader implements TileLoader {
     
-    private static final ThreadPoolExecutor jobDispatcher = new ThreadPoolExecutor(8, 24, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+    private static final ThreadPoolExecutor jobDispatcher = new ThreadPoolExecutor(8, 24, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(1_000));
 
     private final class OsmTileJob implements TileJob {
         private final Tile tile;

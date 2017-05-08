@@ -116,8 +116,8 @@ public class ScanexTileSource extends TMSTileSource {
     @Override
     public Point latLonToXY(double lat, double lon, int zoom) {
         return new Point(
-                (int) osmMercator.lonToX(lon, zoom),
-                (int) latToTileY(lat, zoom)
+                (int) Math.round(osmMercator.lonToX(lon, zoom)),
+                (int) Math.round(latToTileY(lat, zoom))
                 );
     }
 

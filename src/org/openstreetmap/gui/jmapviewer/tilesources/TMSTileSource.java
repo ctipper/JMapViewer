@@ -50,32 +50,32 @@ public class TMSTileSource extends AbstractTMSTileSource {
     @Override
     public Point latLonToXY(double lat, double lon, int zoom) {
         return new Point(
-            (int) osmMercator.lonToX(lon, zoom),
+            (int) Math.round(osmMercator.lonToX(lon, zoom)),
             (int) Math.round(osmMercator.latToY(lat, zoom)));
     }
 
     @Override
     public ICoordinate xyToLatLon(int x, int y, int zoom) {
         return new Coordinate(
-                osmMercator.yToLat(y, zoom),
-                osmMercator.xToLon(x, zoom)
-                );
+            osmMercator.yToLat(y, zoom),
+            osmMercator.xToLon(x, zoom)
+        );
     }
 
     @Override
     public TileXY latLonToTileXY(double lat, double lon, int zoom) {
         return new TileXY(
-                osmMercator.lonToX(lon, zoom) / getTileSize(),
-                Math.round(osmMercator.latToY(lat, zoom)) / getTileSize()
-                );
+            osmMercator.lonToX(lon, zoom) / getTileSize(),
+            osmMercator.latToY(lat, zoom) / getTileSize()
+        );
     }
 
     @Override
     public ICoordinate tileXYToLatLon(int x, int y, int zoom) {
         return new Coordinate(
-                osmMercator.yToLat(y * getTileSize(), zoom),
-                osmMercator.xToLon(x * getTileSize(), zoom)
-                );
+            osmMercator.yToLat(y * getTileSize(), zoom),
+            osmMercator.xToLon(x * getTileSize(), zoom)
+        );
     }
 
     @Override

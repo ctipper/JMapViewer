@@ -1,4 +1,4 @@
-JMapViewer
+# JMapViewer with Retina amendments
 
 (c) 2007, Tim Haussmann
 (c) 2008-2012, Jan Peter Stotz
@@ -20,7 +20,8 @@ JMapViewer
 (c) 2013, Galo Higueras
 (c) 2015-2016, Wiktor Niesiobędzki
 
-This work bases partly on the JOSM plugin "Slippy Map Chooser" by Tim Haussmann
+This work bases partly on the JOSM plugin "Slippy Map Chooser" by Tim Haussmann  
+Modifications by ctipper to upscale map tiles for retina capable macOS
 
 License: GPL
 

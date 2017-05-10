@@ -4,8 +4,6 @@ package org.openstreetmap.gui.jmapviewer;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * This class implements the Mercator Projection as it is used by OpenStreetMap
@@ -80,12 +78,7 @@ public class OsmMercator {
         final GraphicsDevice device = env.getDefaultScreenDevice();
         try {
             Field field = device.getClass().getDeclaredField("scale");
-
-            AccessController.doPrivileged((PrivilegedAction) () -> {
-                field.setAccessible(true);
-                return null;
-            });
-
+            field.setAccessible(true);
             Object scale = field.get(device);
             if (scale instanceof Integer && ((Integer) scale) == 2) {
                 isRetina = true;

@@ -26,12 +26,12 @@ MouseWheelListener {
 
     private Point lastDragPoint;
 
-    private boolean isMoving;
+    private boolean isMoving = false;
 
     private boolean movementEnabled = true;
 
-    private int movementMouseButton = MouseEvent.BUTTON3;
-    private int movementMouseButtonMask = MouseEvent.BUTTON3_DOWN_MASK;
+    private int movementMouseButton = MouseEvent.BUTTON1;
+    private int movementMouseButtonMask = MouseEvent.BUTTON1_DOWN_MASK;
 
     private boolean wheelZoomEnabled = true;
     private boolean doubleClickZoomEnabled = true;
@@ -49,7 +49,7 @@ MouseWheelListener {
         if (!movementEnabled || !isMoving)
             return;
         // Is only the selected mouse button pressed?
-        if ((e.getModifiersEx() & MOUSE_BUTTONS_MASK) == movementMouseButtonMask
+        if ((e.getModifiersEx() & MOUSE_BUTTONS_MASK) == movementMouseButtonMask 
                 || (isPlatformOsx() && e.getModifiersEx() == MAC_MOUSE_BUTTON3_MASK)) {
             Point p = e.getPoint();
             if (lastDragPoint != null) {

@@ -15,7 +15,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
  */
 public class MapMarkerDot extends MapMarkerCircle {
 
-    public static final int DOT_RADIUS = 5;
+    public static final int DOT_RADIUS = (OsmMercator.isRetina() ? 10 : 5);
 
     public MapMarkerDot(Coordinate coord) {
         this(null, null, coord);

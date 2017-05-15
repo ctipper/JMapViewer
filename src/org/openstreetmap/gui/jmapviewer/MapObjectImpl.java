@@ -95,7 +95,7 @@ public abstract class MapObjectImpl {
     }
 
     public boolean isVisible() {
-        return visible == null ? isVisibleLayer() : visible.booleanValue();
+        return visible == null ? isVisibleLayer() : visible;
     }
 
     public void setVisible(Boolean visible) {
@@ -115,7 +115,7 @@ public abstract class MapObjectImpl {
         if (f == null) {
             f = Font.decode(null);
         }
-        return new Font(f.getName(), Font.BOLD, f.getSize());
+        return new Font(f.getName(), Font.BOLD, (OsmMercator.isRetina() ? f.getSize() * 2: f.getSize()));
     }
 
     public void paintText(Graphics g, Point position) {

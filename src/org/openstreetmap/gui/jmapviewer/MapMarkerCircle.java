@@ -7,6 +7,8 @@ import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Stroke;
+import java.awt.BasicStroke;
 
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
@@ -139,9 +141,18 @@ public class MapMarkerCircle extends MapObjectImpl implements MapMarker {
             g.fillOval(position.x - sizeH, position.y - sizeH, size, size);
             g2.setComposite(oldComposite);
         }
-        g.setColor(getColor());
-        g.drawOval(position.x - sizeH, position.y - sizeH, size, size);
-
+        if (g instanceof Graphics2D && OsmMercator.isRetina()) {
+            Graphics2D g2 = (Graphics2D) g;
+            Stroke oldStroke = g2.getStroke();
+            g2.setStroke(new BasicStroke(2));
+            g2.setColor(getColor());
+            g2.drawOval(position.x - sizeH, position.y - sizeH, size, size);
+            g2.setStroke(oldStroke);
+        } else {
+            g.setColor(getColor());
+            g.drawOval(position.x - sizeH, position.y - sizeH, size, size);
+        }
+          
         if (getLayer() == null || getLayer().isVisibleTexts()) paintText(g, position);
     }
 

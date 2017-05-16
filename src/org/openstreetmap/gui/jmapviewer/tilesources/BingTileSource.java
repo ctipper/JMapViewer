@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -279,7 +280,9 @@ public class BingTileSource extends TMSTileSource {
             }
         }
         try {
-            return attributions.get();
+            return attributions.get(1500, TimeUnit.MILLISECONDS);
+        } catch (TimeoutException ex) {
+            System.err.println("Bing: attribution data is not yet loaded.");
         } catch (ExecutionException ex) {
             throw new RuntimeException(ex.getCause());
         } catch (InterruptedException ign) {

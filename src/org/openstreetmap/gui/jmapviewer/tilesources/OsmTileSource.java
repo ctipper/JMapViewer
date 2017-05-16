@@ -40,7 +40,7 @@ public class OsmTileSource {
      */
     public static class CycleMap extends AbstractOsmTileSource {
 
-        private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
+        private static final String API_KEY = "API_KEY_HERE";
 
         private static final String PATTERN = "https://%s.tile.thunderforest.com/cycle";
 
@@ -69,7 +69,7 @@ public class OsmTileSource {
 
         @Override
         public String getTileUrl(int zoom, int tilex, int tiley) throws IOException {
-            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley) + "?apikey=" + API_KEY;
+            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley); // + "?apikey=" + API_KEY;
         }
 
         @Override
@@ -88,7 +88,7 @@ public class OsmTileSource {
      */
     public static class TransportMap extends AbstractOsmTileSource {
 
-        private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
+        private static final String API_KEY = "API_KEY_HERE";
 
         private static final String PATTERN = "https://%s.tile.thunderforest.com/transport";
 
@@ -117,7 +117,7 @@ public class OsmTileSource {
 
         @Override
         public String getTileUrl(int zoom, int tilex, int tiley) throws IOException {
-            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley) + "?apikey=" + API_KEY;
+            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley); // + "?apikey=" + API_KEY;
         }
 
         @Override
@@ -136,7 +136,7 @@ public class OsmTileSource {
      */
     public static class LandscapeMap extends AbstractOsmTileSource {
 
-        private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
+        private static final String API_KEY = "API_KEY_HERE";
 
         private static final String PATTERN = "https://%s.tile.thunderforest.com/landscape";
 
@@ -165,7 +165,7 @@ public class OsmTileSource {
 
         @Override
         public String getTileUrl(int zoom, int tilex, int tiley) throws IOException {
-            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley) + "?apikey=" + API_KEY;
+            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley); // + "?apikey=" + API_KEY;
         }
 
         @Override
@@ -184,7 +184,7 @@ public class OsmTileSource {
      */
     public static class OutdoorsMap extends AbstractOsmTileSource {
 
-        private static final String API_KEY = "4ce9fbeac6a64fdaa9d725181e89082d";
+        private static final String API_KEY = "API_KEY_HERE";
 
         private static final String PATTERN = "https://%s.tile.thunderforest.com/outdoors";
 
@@ -213,7 +213,7 @@ public class OsmTileSource {
 
         @Override
         public String getTileUrl(int zoom, int tilex, int tiley) throws IOException {
-            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley) + "?apikey=" + API_KEY;
+            return this.getBaseUrl() + getTilePath(zoom, tilex, tiley); // + "?apikey=" + API_KEY;
         }
 
         @Override

@@ -51,6 +51,7 @@
 			<manifest>
 				<attribute name="Main-Class" value="org.openstreetmap.gui.jmapviewer.Demo" />
 				<attribute name="Class-Path" value="JMapViewer.jar" />
+				<attribute name="Add-Opens" value="java.desktop/sun.awt" />
 			</manifest>
 		</jar>
 	</target>

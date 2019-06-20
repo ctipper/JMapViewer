@@ -48,6 +48,7 @@
 	
 	<target name="create_run_jar" description="Create a JAR file that can be used to execute the JMapViewer demo app. Requires JMapViewer.jar to be present.">
 		<jar destfile="JMapViewer_Demo.jar" filesetmanifest="mergewithoutmain">
+         <fileset dir="bin" includes="**/jmapviewer/**" />
 			<manifest>
 				<attribute name="Main-Class" value="org.openstreetmap.gui.jmapviewer.Demo" />
 				<attribute name="Class-Path" value="JMapViewer.jar" />

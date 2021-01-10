@@ -72,8 +72,11 @@ public class OsmMercator {
         return -1 * getMaxPixels(aZoomlevel) / 2;
     }
 
+    private static Boolean isRetina = null;
     public static boolean isRetina() {
-        boolean isRetina = false;
+        if (isRetina!=null)
+        	return isRetina;
+        isRetina = false;
         final GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         final GraphicsDevice device = env.getDefaultScreenDevice();
         try {
